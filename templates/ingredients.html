@@ -1,0 +1,43 @@
+<!-- ingredients.html -->
+
+{% extends "index.html" %}
+
+{% block content %}
+<section id="filters">
+    <h2>Filters</h2>
+    <form action="/ingredients" method="POST">
+        <select name="category" id="category">
+            
+            <option value="Fruit" {% if selected_category == 'Fruit' %}selected{% endif %}>Fruit</option>
+            <option value="Herb" {% if selected_category == 'Herb' %}selected{% endif %}>Herb</option>
+            <option value="Spice" {% if selected_category == 'Spice' %}selected{% endif %}>Spice</option>
+            <option value="Flower" {% if selected_category == 'Flower' %}selected{% endif %}>Flower</option>
+            <option value="Other" {% if selected_category == 'Other' %}selected{% endif %}>Other</option>
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+</section>
+
+<section id="ingredients">
+    <h2>Ingredients</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ingredient in ingredients_list %}
+            <tr>
+                <td>{{ ingredient['name'] }}</td>
+                <td>{{ ingredient['category'] }}</td>
+                <td>{{ ingredient['description'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}
+

@@ -14,6 +14,7 @@
             <ul>
                 <li><a href="/">Brew Tracker</a></li>
                 <li><a href="/abv-calculator">ABV Calculator</a></li>
+                <li><a href="/ingredients">Ingredients</a></li>
             </ul>
         </nav>
     </header>
@@ -21,7 +22,6 @@
         <section id="brew-list">
             <h2>My Brews</h2>
             <ul>
-                <!-- Brew list goes here -->
                 {% for brew in brews %}
                 <li><a href="/brew/{{ loop.index0 }}">{{ brew.name }}</a></li>
                 {% endfor %}
@@ -31,7 +31,7 @@
         {% block content %}{% endblock %}
     </main>
     <footer>
-        <p>&copy; 2024 Your Name</p>
+        <p>By Patrick Twitchett</p>
     </footer>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>

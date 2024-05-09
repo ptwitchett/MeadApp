@@ -1,0 +1,21 @@
+<!-- edit_brew.html -->
+{% extends "index.html" %}
+{% block content %}
+<section id="edit-brew">
+    <h2>Edit Brew</h2>
+    <form action="/update-brew/{{ brew_id }}" method="post">
+        <label for="brew-name">Name:</label>
+        <input type="text" id="brew-name" name="brew-name" value="{{ brew.name }}" required><br><br>
+        <label for="start-date">Start Date:</label>
+        <input type="date" id="start-date" name="start-date" value="{{ brew.start_date }}" required><br><br>
+        <label for="total-volume">Total Volume (liters):</label>
+        <input type="number" id="total-volume" name="total-volume" value="{{ brew.total_volume }}" required><br><br>
+        <label for="start-sg">Start Specific Gravity:</label>
+        <input type="text" id="start-sg" name="start-sg" value="{{ brew.start_sg }}" required><br><br>
+        <label for="ingredients">Initial Ingredients:</label><br>
+        <textarea id="ingredients" name="ingredients" rows="4" cols="50" required>{{ brew.ingredients }}</textarea><br><br>
+        <input type="submit" value="Update Brew" class="button">
+    </form>
+    <a href="/brew/{{ brew_id }}" class="button">Cancel</a>
+</section>
+{% endblock %}
