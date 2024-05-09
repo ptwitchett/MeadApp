@@ -1,0 +1,13 @@
+<!-- brew_details.html -->
+{% extends "index.html" %}
+{% block content %}
+<section id="brew-details">
+    <h2>{{ brew.name }}</h2>
+    <p><strong>Start Date:</strong> {{ brew.start_date }}</p>
+    <p><strong>Total Volume (liters):</strong> {{ brew.total_volume }}</p>
+    <p><strong>Start Specific Gravity:</strong> {{ brew.start_sg }}</p>
+    <p><strong>Ingredients:</strong></p>
+    <p>{{ brew.ingredients }}</p>
+    <a href="/" class="button">Back to Brews List</a>
+</section>
+{% endblock %}

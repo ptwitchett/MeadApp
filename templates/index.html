@@ -1,0 +1,38 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mead Brewing Companion</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Mead Brewing Companion</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Brew Tracker</a></li>
+                <li><a href="/abv-calculator">ABV Calculator</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="brew-list">
+            <h2>My Brews</h2>
+            <ul>
+                <!-- Brew list goes here -->
+                {% for brew in brews %}
+                <li><a href="/brew/{{ loop.index0 }}">{{ brew.name }}</a></li>
+                {% endfor %}
+            </ul>
+            <a href="/new-brew" class="button">Add New Brew</a>
+        </section>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2024 Your Name</p>
+    </footer>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

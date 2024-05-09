@@ -1,0 +1,39 @@
+<!-- abv_calculator.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABV Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>ABV Calculator</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Brew Tracker</a></li>
+                <li><a href="/abv-calculator" class="active">ABV Calculator</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="abv-calculator">
+            <h2>ABV Calculator</h2>
+            <form action="/calculate-abv" method="post">
+                <label for="start-sg">Start Specific Gravity:</label>
+                <input type="text" id="start-sg" name="start-sg" required><br><br>
+                <label for="end-sg">End Specific Gravity:</label>
+                <input type="text" id="end-sg" name="end-sg" required><br><br>
+                <input type="submit" value="Calculate ABV" class="button">
+            </form>
+            {% if abv %}
+            <h3>ABV: {{ abv | round(2) }}%</h3>
+            {% endif %}
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Your Name</p>
+    </footer>
+</body>
+</html>
