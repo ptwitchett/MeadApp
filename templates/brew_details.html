@@ -1,73 +1,59 @@
 <!-- brew_details.html -->
 {% extends "index.html" %}
+
 {% block content %}
 <section id="brew-details">
     <h2>{{ brew.name }}</h2>
     <p><strong>Start Date:</strong> {{ brew.start_date }}</p>
-    <p><strong>Total Volume (liters):</strong> {{ brew.total_volume }}</p>
+    <p><strong>Total Volume:</strong> {{ brew.total_volume }}</p>
     <p><strong>Start Specific Gravity:</strong> {{ brew.start_sg }}</p>
     <p><strong>Latest Specific Gravity:</strong> {% if brew.readings %} {{ brew.readings[-1].specific_gravity }} {% else %} {{ brew.start_sg }} {% endif %}</p>
-    <p><strong>Contents:</strong></p>
-    <p>{{ latest_contents }}</p>
-    <div id="readings">
-        <h3>Specific Gravity Readings</h3>
-        {% if brew.readings %}
-            <ul>
-                {% for reading in brew.readings %}
-                    <li>Date: {{ reading.date }}, Specific Gravity: {{ reading.specific_gravity }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No specific gravity readings yet.</p>
-        {% endif %}
-        <button onclick="toggleForm('add-reading-form')">Add Specific Gravity Reading</button>
-        <form action="/add-reading/{{ brew_id }}" method="post" style="display: none;" id="add-reading-form">
-            <label for="reading-date">Reading Date:</label>
-            <input type="date" id="reading-date" name="reading-date" required><br><br>
-            <label for="specific-gravity">Specific Gravity:</label>
-            <input type="text" id="specific-gravity" name="specific-gravity" required><br><br>
-            <input type="submit" value="Add Reading" class="button">
-        </form>
-    </div>
-    <div id="updates">
-        <h3>Batch Updates</h3>
-        {% if brew.updates %}
-            <ul>
-                {% for update in brew.updates %}
-                    <li><strong>Date:</strong> {{ update.date }}, <strong>New State:</strong> {{ update.state }}</li>
-                    <div id="contents_{{ loop.index }}">
-                        <p><strong>New Contents:</strong></p>
-                        <p>{{ update.contents }}</p>
-                    </div>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No batch updates yet.</p>
-        {% endif %}
-        <form action="/add-update/{{ brew_id }}" method="post" style="display: none;" id="update-form">
-            <label for="update-date">Update Date:</label>
-            <input type="date" id="update-date" name="update-date" required><br><br>
-            <label for="new-state">New State:</label>
-            <input type="text" id="new-state" name="new-state" required><br><br>
-            <label for="new-contents">New Contents:</label><br>
-            <textarea id="new-contents" name="new-contents" rows="4" cols="50" required></textarea><br><br>
-            <input type="submit" value="Add Update" class="button">
-        </form>
-    </div>
-    <button onclick="toggleForm('update-form')">New Update</button>
-    <a href="/edit-brew/{{ brew_id }}" class="button">Edit Brew</a>
-    <a href="/delete-brew/{{ brew_id }}" class="button">Delete Brew</a>
-    <a href="/" class="button">Back to Brews List</a>
+    <h3>Initial Ingredients</h3>
+    <p>{{ brew.ingredients }}</p>
+    <h3>Readings</h3>
+    <ul>
+        {% for reading in brew.readings %}
+        <li>{{ reading.date }} - SG: {{ reading.specific_gravity }}</li>
+        {% endfor %}
+    </ul>
+    <h3>Updates</h3>
+    <ul>
+        {% for update in brew.updates %}
+        <li>{{ update.date }} - State: {{ update.state }}</li>
+        <li><strong>Content:</strong> {{ update.contents }}</li>
+        {% endfor %}
+    </ul>
+    <button id="toggle-readings">Toggle Readings</button>
+    <form action="/add-reading/{{ brew_id }}" method="POST" id="reading-form" style="display: none;">
+        <label for="reading-date">Date:</label>
+        <input type="date" id="reading-date" name="reading-date" required>
+        <label for="specific-gravity">Specific Gravity:</label>
+        <input type="number" id="specific-gravity" name="specific-gravity" step="0.001" min="0" max="2" required>
+        <button type="submit">Add Reading</button>
+    </form>
+    <button id="toggle-updates">Toggle Updates</button>
+    <form action="/add-update/{{ brew_id }}" method="POST" id="update-form" style="display: none;">
+        <label for="update-date">Date:</label>
+        <input type="date" id="update-date" name="update-date" required>
+        <label for="new-state">State:</label>
+        <input type="text" id="new-state" name="new-state" required>
+        <label for="new-contents">Contents:</label>
+        <textarea id="new-contents" name="new-contents" rows="4" required></textarea>
+        <button type="submit">Add Update</button>
+    </form>
+    <form action="/delete-brew/{{ brew_id }}" method="POST">
+        <button type="submit">Delete Brew</button>
+    </form>
 </section>
-
 <script>
-    function toggleForm(id) {
-        var x = document.getElementById(id);
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
-        }
-    }
+    document.getElementById('toggle-readings').addEventListener('click', function() {
+        var form = document.getElementById('reading-form');
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    });
+
+    document.getElementById('toggle-updates').addEventListener('click', function() {
+        var form = document.getElementById('update-form');
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    });
 </script>
 {% endblock %}
