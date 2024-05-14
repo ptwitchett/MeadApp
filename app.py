@@ -50,11 +50,6 @@ def delete_brew(brew_id):
         return redirect('/')
     return render_template('index.html', brews=brews)
 
-@app.route('/edit-brew/<int:brew_id>')
-def edit_brew(brew_id):
-    brew = brews[brew_id]
-    return render_template('edit_brew.html', brew=brew, brew_id=brew_id)
-
 @app.route('/update-brew/<int:brew_id>', methods=['POST'])
 def update_brew(brew_id):
     if request.method == 'POST':
