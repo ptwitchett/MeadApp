@@ -110,23 +110,41 @@ def show_ingredients():
     else:
         return render_template('ingredients.html', ingredients_list=ingredients, selected_category=None, random_ingredient=random_ingredient)
     
+#chooses random ingredient to be displayeed    
 @app.route('/random-ingredient', methods=['GET'])
 def random_ingredient():
     random_ingredient = random.choice(ingredients)
     return render_template('random_ingredient.html', random_ingredient=random_ingredient)
 
-# Renders the note page where users can type notes
+#renders the note page where user can type notes
 @app.route('/notes')
 def show_notes():
     return render_template('notes.html', notes=user_notes)
 
-# Saves the note entered by the user and redirects back to the notes page
+#saves the notes entered by the user and redirects back to the notes page
 @app.route('/save-note', methods=['POST'])
 def save_note():
     if request.method == 'POST':
         note = request.form['note']
         user_notes.append(note)
     return redirect('/notes')
+
+@app.route('/edit-brew/<int:brew_id>')
+def edit_brew(brew_id):
+    brew = brews[brew_id]
+    return render_template('edit_brew.html', brew=brew, brew_id=brew_id)
+
+
+@app.route('/update-brew/<int:brew_id>', methods=['POST'])
+def update_brew(brew_id):
+    if request.method == 'POST':
+        brews[brew_id]["name"] = request.form['brew-name']
+        brews[brew_id]["start_date"] = request.form['start-date']
+        brews[brew_id]["total_volume"] = request.form['total-volume']
+        brews[brew_id]["start_sg"] = request.form['start-sg']
+        brews[brew_id]["ingredients"] = request.form['ingredients']
+        return redirect('/brew/' + str(brew_id))
+    return render_template('brew_details.html', brew=brews[brew_id], brew_id=brew_id)
 
 
 if __name__ == '__main__':

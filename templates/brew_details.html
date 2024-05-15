@@ -44,6 +44,9 @@
     <form action="/delete-brew/{{ brew_id }}" method="POST">
         <button type="submit">Delete Brew</button>
     </form>
+    <form action="/edit-brew/{{ brew_id }}" method="GET">
+        <button type="submit">Edit Brew</button>
+    </form>
 </section>
 <script>
     document.getElementById('toggle-readings').addEventListener('click', function() {

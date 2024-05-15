@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">   
+</head>
+<body>
+    <Header>
+        <h1>Edit Brew</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Brew Tracker</a></li>
+                <li><a href="/abv-calculator">ABV Calculator</a></li>
+                <li><a href="/ingredients">Ingredients</a></li>
+                <li><a href="/notes">Notes</a></li>
+            </ul>
+        </nav>
+           
+
+
+    </Header>
+
+<form action="/update-brew/{{ brew_id }}" method="POST">
+    <label for="brew-name">Brew Name:</label><br>
+    <input type="text" id="brew-name" name="brew-name" value="{{ brew['name'] }}"><br>
+    <label for="start-date">Start Date:</label><br>
+    <input type="text" id="start-date" name="start-date" value="{{ brew['start_date'] }}"><br>
+    <label for="total-volume">Total Volume:</label><br>
+    <input type="text" id="total-volume" name="total-volume" value="{{ brew['total_volume'] }}"><br>
+    <label for="start-sg">Start SG:</label><br>
+    <input type="text" id="start-sg" name="start-sg" value="{{ brew['start_sg'] }}"><br>
+    <label for="ingredients">Ingredients:</label><br>
+    <textarea id="ingredients" name="ingredients" rows="4" cols="50">{{ brew['ingredients'] }}</textarea><br>
+    <button type="submit">Update Brew</button>
+</form>
+
+</body>
+</html>
