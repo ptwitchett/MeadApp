@@ -7,7 +7,7 @@
     <h2>Filters</h2>
     <form action="/ingredients" method="POST">
         <select name="category" id="category">
-            
+
             <option value="Fruit" {% if selected_category == 'Fruit' %}selected{% endif %}>Fruit</option>
             <option value="Herb" {% if selected_category == 'Herb' %}selected{% endif %}>Herb</option>
             <option value="Spice" {% if selected_category == 'Spice' %}selected{% endif %}>Spice</option>
@@ -15,11 +15,15 @@
             <option value="Other" {% if selected_category == 'Other' %}selected{% endif %}>Other</option>
         </select>
         <button type="submit">Filter</button>
+        <form action="/random-ingredient" method="POST">
+            <button type="submit">Random Ingredient</button>
+        </form>
     </form>
 </section>
 
 <section id="ingredients">
     <h2>Ingredients</h2>
+    <p>Random Ingredient: {{ random_ingredient['name'] }}</p>
     <table>
         <thead>
             <tr>
@@ -40,4 +44,3 @@
     </table>
 </section>
 {% endblock %}
-

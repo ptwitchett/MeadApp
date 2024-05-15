@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">   
+</head>
+<body>
+    <Header>
+        <h1>Notes</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Brew Tracker</a></li>
+                <li><a href="/abv-calculator">ABV Calculator</a></li>
+                <li><a href="/ingredients">Ingredients</a></li>
+                <li><a href="/notes">Notes</a></li>
+            </ul>
+        </nav>
+           
+
+
+    </Header>
+
+<h1>Notes</h1>
+
+<ul>
+    {% for note in notes %}
+        <li>{{ note }}</li>
+    {% endfor %}
+</ul>
+
+<form action="/save-note" method="POST">
+    <textarea name="note" cols="30" rows="10"></textarea><br>
+    <button type="submit">Save Note</button>
+</form>
+
+</body>
+</html>
