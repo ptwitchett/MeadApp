@@ -3,9 +3,10 @@ from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
 
-# List to store brews
+# list to store brews
 brews = []
 
+#loads csv file for ingredients
 def load_ingredients():
     with open('ingredients.csv', newline='', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile)
@@ -13,14 +14,17 @@ def load_ingredients():
 
 ingredients = load_ingredients()
 
+#renders index.html on launch page
 @app.route('/')
 def index():
     return render_template('index.html', brews=brews)
 
+#renders new_brew.html
 @app.route('/new-brew')
 def new_brew():
     return render_template('new_brew.html')
 
+#adds new brew to brews with data from /new-brew and taskes back to launch page
 @app.route('/save-brew', methods=['POST'])
 def save_brew():
     if request.method == 'POST':
@@ -37,12 +41,13 @@ def save_brew():
         return redirect('/')
     return render_template('index.html', brews=brews)
 
+#route dependent on number of brew in brews, renders brew_details.html of chosen brew id
 @app.route('/brew/<int:brew_id>')
 def brew_details(brew_id):
     brew = brews[brew_id]
     return render_template('brew_details.html', brew=brew, brew_id=brew_id)
 
-
+#deletes a brew from brews and renders launch page
 @app.route('/delete-brew/<int:brew_id>', methods=['POST'])
 def delete_brew(brew_id):
     if request.method == 'POST':
@@ -50,22 +55,7 @@ def delete_brew(brew_id):
         return redirect('/')
     return render_template('index.html', brews=brews)
 
-@app.route('/update-brew/<int:brew_id>', methods=['POST'])
-def update_brew(brew_id):
-    if request.method == 'POST':
-        brew = {
-            "name": request.form['brew-name'],
-            "start_date": request.form['start-date'],
-            "total_volume": request.form['total-volume'],
-            "start_sg": request.form['start-sg'],
-            "ingredients": request.form['ingredients'],
-            "readings": brews[brew_id]['readings'],
-            "updates": brews[brew_id]['updates']
-        }
-        brews[brew_id] = brew
-        return redirect('/')
-    return render_template('index.html', brews=brews)
-
+#takes input from form in brew_details.html and adds reading to brew in brews of id of the page
 @app.route('/add-reading/<int:brew_id>', methods=['POST'])
 def add_reading(brew_id):
     if request.method == 'POST':
@@ -77,6 +67,7 @@ def add_reading(brew_id):
         return redirect('/brew/' + str(brew_id))
     return render_template('brew_details.html', brew=brews[brew_id], brew_id=brew_id)
 
+#takes input from form in brew_details.html and adds update to brew in brews of id of the page
 @app.route('/add-update/<int:brew_id>', methods=['POST'])
 def add_update(brew_id):
     if request.method == 'POST':
@@ -89,10 +80,12 @@ def add_update(brew_id):
         return redirect('/brew/' + str(brew_id))
     return render_template('brew_details.html', brew=brews[brew_id], brew_id=brew_id)
 
+#renders abv_calculator.html 
 @app.route('/abv-calculator')
 def abv_calculator():
     return render_template('abv_calculator.html')
 
+#takes inputs from /abv-calculator and runs abv calculation, renders page with calculated value
 @app.route('/calculate-abv', methods=['POST'])
 def calculate_abv():
     if request.method == 'POST':
@@ -102,6 +95,7 @@ def calculate_abv():
         return render_template('abv_calculator.html', abv=round(abv, 2))
     return redirect('/abv-calculator')
 
+#renders all ingredients in /ingredients unless a category is chosen, then only that category of ingredient is shown
 @app.route('/ingredients', methods=['GET', 'POST'])
 def show_ingredients():
     if request.method == 'POST':
